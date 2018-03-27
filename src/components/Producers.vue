@@ -3,7 +3,7 @@
   <div>Producers</div>
   <form @submit.prevent="add">
     <input type="text" v-model="producer.name" required placeholder="producer name">
-    <input type="url"  v-model="producer.url"  required placeholder="producer url">
+    <input type="url"  v-model="producer.website"  required placeholder="producer url">
     <input type="url"  v-model="producer.feedUrl"  required placeholder="feeds url">
     <button>add</button>
   </form>
@@ -14,18 +14,26 @@
   </div>
 </template>
 <script>
+import {HTTP} from '@/http-common'
+
 export default {
   data: function(){
     return {
-      producer:{ name:'',url:'',feedUrl:''},
+      producer:{ name:'',website:'',feedUrl:''},
       producers:[]
     }
   },
   methods:{
     add: function(){
-        this.producers.push(this.producer);
-        this.saveProducers();
-        this.producer ={ name:'',url:'',feedUrl:''};
+        HTTP.post('/producers',this.producer)
+        .then((resp)=>{
+            this.producer ={ name:'',website:'',feedUrl:''};
+        })
+        .catch((err)=> console.log(err));
+
+        //this.producers.push(this.producer);
+        //this.saveProducers();
+        
     },
     getEmptyPriducer: function(){
       return { name:'',url:'',feedUrl:''};
