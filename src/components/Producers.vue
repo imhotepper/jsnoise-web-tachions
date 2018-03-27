@@ -28,11 +28,9 @@ export default {
         HTTP.post('/producers',this.producer)
         .then((resp)=>{
             this.producer ={ name:'',website:'',feedUrl:''};
+            this.load();
         })
         .catch((err)=> console.log(err));
-
-        //this.producers.push(this.producer);
-        //this.saveProducers();
         
     },
     getEmptyPriducer: function(){
@@ -40,13 +38,16 @@ export default {
     },
     saveProducers: function(){
       localStorage.setItem("producers", JSON.stringify( this.producers));
+    },
+    load:function(){
+      HTTP.get('/producers')
+      .then((resp) => this.producers = resp.data)
+      .catch((err)=> console.log(err));
     }
   },
   created:function(){
-    var producers = localStorage.getItem("producers");
-    if (producers){
-      this.producers = JSON.parse(producers);
-    }
+    this.load();
+    
   }
 }
 </script>

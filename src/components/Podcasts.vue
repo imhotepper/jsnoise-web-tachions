@@ -1,7 +1,13 @@
 <template>
 <div>
   <div>podcasts</div>
-  <div v-for="p in podcasts" :key="p.id"> {{p.title}}</div>
+  <div v-for="p in podcasts" :key="p.id">
+    <h4>{{p.title}}</h4>
+    <p>
+      <span>by {{p.producerName}}</span>
+      <span>on {{p.pubDate | date }}</span>
+    </p>
+  </div>
   <div>
     <button  :disabled="!hasPrev" @click="prev">Prev</button>
     <button :disabled="!hasNext" @click="next">Next</button>

@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import {HTTP} from '@/http-common';
 export default {
   name: 'App',
   data:function(){
@@ -33,7 +34,9 @@ export default {
       this.$router.push({name:'podcasts'})
     },
     update: function(){
-      console.log('updating feeds ....');
+      HTTP.get('/producers/update')
+      .then((resp)=> console.log("done: " + resp.data))
+      .catch((err) => console.log(err));
       this.$router.push({name:'podcasts'})
     }
   },

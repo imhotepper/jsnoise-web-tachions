@@ -12,6 +12,12 @@ Vue.config.productionTip = false
 
 Vue.prototype.$eventHub = new Vue(); // Global event bus
 
+Vue.filter("date", function(val){
+  if (!val) return "";
+  var dt = new Date(val);//.toString("yyyy-MM-dd");
+  return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDay()}`;
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
