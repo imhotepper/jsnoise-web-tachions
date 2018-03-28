@@ -1,22 +1,24 @@
 <template>
 <div>
-  <div>podcasts</div>
   <div v-for="p in podcasts" :key="p.id">
-    <h4>{{p.title}}</h4>
+    <h4>
+      <router-link :to="`/podcasts/${p.id}`">
+      {{p.title}}
+      </router-link>
+      </h4>
     <p>
       <span>by {{p.producerName}}</span>
       <span>on {{p.pubDate | date }}</span>
     </p>
   </div>
   <div>
-    <button  :disabled="!hasPrev" @click="prev">Prev</button>
-    <button :disabled="!hasNext" @click="next">Next</button>
+    <button class="btn " :disabled="!hasPrev" @click="prev">Prev</button>
+    <button class="btn" :disabled="!hasNext" @click="next">Next</button>
   </div>
 </div>
   
 </template>
 <script>
-import {HTTP} from '@/http-common'
 
 export default {
   name:'Podcasts',
@@ -44,7 +46,7 @@ export default {
       this.load();
     },
     load:function(){
-        HTTP.get(`/showslist?page=${this.currentPage}`)
+        this.axios.get(`/api/showslist?page=${this.currentPage}`)
     .then((resp) => {
         this.totalPages = resp.data.totalPages;
         this.podcasts=resp.data.content;

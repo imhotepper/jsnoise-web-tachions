@@ -1,17 +1,32 @@
 <template>
-  <div id="app">
-    <h2>The Vue.js podcasts agregator</h2>
-    <div>
-      <router-link to="/">home</router-link>
-      <router-link v-show="isAuthenticated" to="/admin/producers">producers</router-link>
-      <router-link v-show="isAuthenticated" to="/admin/test">tester</router-link>
-      <router-link v-show="!isAuthenticated" to="/login">login</router-link>
-      <a v-show="isAuthenticated" v-on:click="update">update</a>
-      <a v-show="isAuthenticated" v-on:click="logout">logout</a>
-    </div>
-    <router-view/>
-  </div>
+<!-- Begin page content -->
+  
+  <div class="container" id="app" >
+      <div class="header clearfix">
+        <nav>
+          <ul hidden class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted"> </h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1><router-link to="/" >JsNoise</router-link></h1>
+        <p class="lead"> Podcasts aggregator for all javascript podcasts</p>
+      </div>
+
+    <router-view></router-view>
+
+    </div> <!-- /container -->
+
+
+
 </template>
+
+
 
 <script>
 import {HTTP} from '@/http-common';
@@ -34,7 +49,7 @@ export default {
       this.$router.push({name:'podcasts'})
     },
     update: function(){
-      HTTP.get('/producers/update')
+      this.axios.get('/producers/update')
       .then((resp)=> console.log("done: " + resp.data))
       .catch((err) => console.log(err));
       this.$router.push({name:'podcasts'})
@@ -57,7 +72,8 @@ export default {
   margin-top: 60px;
 }
 
-a{
+a :hover {
   text-decoration: none
 }
+.mymenu{ float: right; }
 </style>

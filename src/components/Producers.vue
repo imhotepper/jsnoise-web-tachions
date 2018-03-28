@@ -14,7 +14,6 @@
   </div>
 </template>
 <script>
-import {HTTP} from '@/http-common'
 
 export default {
   data: function(){
@@ -25,7 +24,7 @@ export default {
   },
   methods:{
     add: function(){
-        HTTP.post('/producers',this.producer)
+        this.axios.post('/api/producers',this.producer)
         .then((resp)=>{
             this.producer ={ name:'',website:'',feedUrl:''};
             this.load();
@@ -40,7 +39,7 @@ export default {
       localStorage.setItem("producers", JSON.stringify( this.producers));
     },
     load:function(){
-      HTTP.get('/producers')
+      this.axios.get('/api/producers')
       .then((resp) => this.producers = resp.data)
       .catch((err)=> console.log(err));
     }

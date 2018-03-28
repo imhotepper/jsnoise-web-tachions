@@ -5,6 +5,7 @@ import Podcasts from '@/components/Podcasts'
 import Producers from '@/components/Producers'
 import FeedTester from '@/components/FeedTester'
 import Login from '@/components/Login'
+import Podcast from '@/components/Podcast'
 
 Vue.use(Router)
 
@@ -15,6 +16,11 @@ export default new Router({
       path: '/',
       name: 'podcasts',
       component: Podcasts
+    },
+    {
+      path:'/podcasts/:id',
+      component: Podcast,
+      props:true
     },
     {
       path:'/admin/producers',
