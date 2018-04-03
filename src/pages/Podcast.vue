@@ -11,7 +11,12 @@
         </p>
       </div>
       <div class="pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns">           
-            <p> <audio controls>  <source  :src="podcast.mp3"> </audio>  </p>     
+            <p>
+                <audio controls
+                v-bind:src="podcast.mp3">
+                Your browser does not support the <code>audio</code> element.
+                </audio>
+</p> 
       </div>
     </div>
     <p class="f6 lh-copy gray mv0">By <span class="ttu"> {{podcast.producerName}}</span></p>

@@ -1,66 +1,40 @@
 <template>
 
-<div>
-  <div class="pa4-l">
-  <form  @submit.prevent="submit" class="bg-light-red mw7 center pa4 br2-ns ba b--black-10" >
-    <fieldset class="cf bn ma0 pa0">
-      <div class="cf">
-        <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns" 
-        placeholder="What are you looking for today ?"  type="text" v-model="search">
-      </div>
-    </fieldset>
-  </form>
-</div>
-
-<article class="pv4 bt bb b--black-10 ph3 ph0-l"  v-for="p in podcasts" :key="p.id"  >
-    <div class="flex flex-column flex-row-ns">
-      <div class="w-100 w-60-ns pr3-ns order-2 order-1-ns">
-        <h1 class="f3 athelas mt0 lh-title">
-          <router-link  class="no-underline" :to="`/podcasts/${slug(p)}`">{{p.title}}</router-link></h1>
-        <p class="f5 f4-l lh-copy athelas">
-        </p>
-      </div>
-      <div class="pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns">
-       
-      </div>
+    <div>
+      <div class="pa4-l">
+      <form  @submit.prevent="submit" class="bg-light-red mw7 center pa4 br2-ns ba b--black-10" >
+        <fieldset class="cf bn ma0 pa0">
+          <div class="cf">
+            <input class="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns" 
+            placeholder="What are you looking for today ?"  type="text" v-model="search">
+          </div>
+        </fieldset>
+      </form>
     </div>
-    <p class="f6 lh-copy gray mv0">By <span class="ttu"> {{p.producerName}}</span></p>
-    <time class="f6 db gray">{{p.pubDate | date }}</time>
-  </article>
 
-<div class="m8 tc v-mid top-40" v-show="podcasts.length == 0 ">
-  <h2>Nothing found !</h2>
-</div>
+    <PodcastListItem v-for="p in podcasts" :key="p.id" :p="p" ></PodcastListItem>
 
-<div class="mw8 center"  v-show="totalPages > 1">
-  <nav class="cf pa3 pa4-ns" data-name="pagination-next-prev">
-    <a class="fl dib link dim black f6 f5-ns b pa2" :disabled="!hasPrev" @click="prev" title="Previous">&larr; Previous</a>
-    <a class="fr dib link dim black f6 f5-ns b pa2" :disabled="!hasNext" @click="next" title="Next">Next &rarr;</a>
-  </nav>
-</div>
-<div class="flex items-center justify-center pa4" v-show="totalPages > 1" hidden>
-  <a  :disabled="!hasPrev" @click="prev" class="f5 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box mr4">
-      <svg class="w1" data-icon="chevronLeft" viewBox="0 0 32 32" style="fill:currentcolor">
-        <title>chevronLeft icon</title>
-        <path d="M20 1 L24 5 L14 16 L24 27 L20 31 L6 16 z"></path>
-      </svg>
-    <span class="pl1">Previous</span>
-  </a>
-  <a   :disabled="!hasNext" @click="next" class="f5 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box">
-    <span class="pr1">Next</span>
-    <svg class="w1" data-icon="chevronRight" viewBox="0 0 32 32" style="fill:currentcolor">
-      <title>chevronRight icon</title>
-      <path d="M12 1 L26 16 L12 31 L8 27 L18 16 L8 5 z"></path>
-    </svg>
-  </a>
-</div>
-</div>
+    <div class="m8 tc v-mid top-40" v-show="podcasts.length == 0 ">
+      <h2>Nothing found !</h2>
+    </div>
+
+    <div class="mw8 center"  v-show="totalPages > 1">
+      <nav class="cf pa3 pa4-ns" data-name="pagination-next-prev">
+        <a class="fl dib link dim black f6 f5-ns b pa2" :disabled="!hasPrev" @click="prev" title="Previous">&larr; Previous</a>
+        <a class="fr dib link dim black f6 f5-ns b pa2" :disabled="!hasNext" @click="next" title="Next">Next &rarr;</a>
+      </nav>
+    </div>
+
+    </div>
 </template>
 <script>
+
+import PodcastListItem from '@/components/PodcastListItem'
 
 export default {
   name:'Podcasts',
   props:['p','q'],
+  components: {PodcastListItem},
   data:function(){
     return {
       currentPage:1,
@@ -95,9 +69,6 @@ export default {
       this.$router.push({path:"/", query:prms});
      
     },
-    slug:function(p){
-      return `${p.id}-${ this.$options.filters.slugify(p.title)}`;
-    },
     getUrlParameter: function (name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -115,29 +86,20 @@ export default {
         .catch((err)=> console.log(err))
     }
   },
-  // watch:{
-  //   '$route'(to, from){
-  //     this.search = to.query.q;
-  //     if (to.params.p) this.currentPage = to.params.p;
-  //     console.log(" watch page: " + to.query.p);
-      
-  //     this.load();
-  //   }
-  // },
   watch:{
     $route:{
       imediate:true,
       handler(to, from){
       this.search = to.query.q;
       if (to.params.p) this.currentPage = to.params.p;
-      console.log(" watch page: " + to.query.p);
+      //console.log(" watch page: " + to.query.p);
       
       this.load();
     }
     }
   },
    beforeRouteUpdate : function(to, from, next) {
-    console.log(" guard page: " + to.query.p);
+    //console.log(" guard page: " + to.query.p);
   
   next();
    },
