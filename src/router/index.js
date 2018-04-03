@@ -10,6 +10,9 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -41,10 +44,11 @@ export default new Router({
       path:'/login',
       name:'Login',
       component: Login
-    },
-    {
-      path:'*',
-      component:Podcasts
     }
+    // ,
+    // {
+    //   path:'*',
+    //   component:Podcasts
+    // }
   ]
 })

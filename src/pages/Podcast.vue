@@ -26,7 +26,8 @@ export default {
   methods:{
       load:function(){
           if (this.id){
-              this.axios.get(`/api/shows/${this.id}`)
+              const theId = this.id.split('-')[0];
+              this.axios.get(`/api/shows/${theId}`)
               .then((resp) => this.podcast = resp.data)
               .catch((err) => console.log(err));
           }

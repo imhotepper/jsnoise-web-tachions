@@ -16,7 +16,7 @@
     <div class="flex flex-column flex-row-ns">
       <div class="w-100 w-60-ns pr3-ns order-2 order-1-ns">
         <h1 class="f3 athelas mt0 lh-title">
-          <router-link  class="no-underline" :to="`/podcasts/${p.id}`">{{p.title}}</router-link></h1>
+          <router-link  class="no-underline" :to="`/podcasts/${slug(p)}`">{{p.title}}</router-link></h1>
         <p class="f5 f4-l lh-copy athelas">
         </p>
       </div>
@@ -70,7 +70,7 @@ export default {
   }},
   computed:{
     hasNext:function(){return this.currentPage < this.totalPages-1},
-     hasPrev:function(){ return this.currentPage > 1},
+    hasPrev:function(){ return this.currentPage > 1},
   },
   methods:{
    submit: function(){
@@ -95,6 +95,15 @@ export default {
       this.$router.push({path:"/", query:prms});
      
     },
+    slug:function(p){
+      return `${p.id}-${ this.$options.filters.slugify(p.title)}`;
+    },
+    getUrlParameter: function (name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    },
     load:function(){
         let url = `/api/showslist?page=${this.currentPage}`;
         if (this.search) url +="&q="+ this.search;
@@ -102,18 +111,39 @@ export default {
         .then((resp) => {
             this.totalPages = resp.data.totalPages;
             this.podcasts=resp.data.content;
-            window.scrollTo(0,0);
           })
         .catch((err)=> console.log(err))
     }
   },
+  // watch:{
+  //   '$route'(to, from){
+  //     this.search = to.query.q;
+  //     if (to.params.p) this.currentPage = to.params.p;
+  //     console.log(" watch page: " + to.query.p);
+      
+  //     this.load();
+  //   }
+  // },
   watch:{
-    '$route'(to, from){
+    $route:{
+      imediate:true,
+      handler(to, from){
       this.search = to.query.q;
+      if (to.params.p) this.currentPage = to.params.p;
+      console.log(" watch page: " + to.query.p);
+      
       this.load();
     }
+    }
   },
+   beforeRouteUpdate : function(to, from, next) {
+    console.log(" guard page: " + to.query.p);
+  
+  next();
+   },
   created:function(){
+    if (this.getUrlParameter('p')) this.currentPage =  this.getUrlParameter('p');
+    if (this.getUrlParameter('q')) this.search =  this.getUrlParameter('q');
     this.load();
   }
 }
