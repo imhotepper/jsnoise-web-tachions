@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Podcasts from '@/components/Podcasts'
-import Producers from '@/components/Producers'
-import FeedTester from '@/components/FeedTester'
-import Login from '@/components/Login'
-import Podcast from '@/components/Podcast'
+import Podcasts from '@/pages/Podcasts'
+import Producers from '@/pages/Producers'
+import FeedTester from '@/pages/FeedTester'
+import Login from '@/pages/Login'
+import Podcast from '@/pages/Podcast'
 
 Vue.use(Router)
 
@@ -14,8 +13,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'podcasts',
+      name: 'root',
       component: Podcasts
+    },
+    {
+      path: '/p=:p?&q=:q?',
+      name: 'podcasts',
+      component: Podcasts,
+      props:true
     },
     {
       path:'/podcasts/:id',
