@@ -45,10 +45,10 @@ export default new Router({
       name:'Login',
       component: Login
     }
-    // ,
-    // {
-    //   path:'*',
-    //   component:Podcasts
-    // }
+    ,
+    {
+      path:'*',
+      component:Podcasts
+    }
   ]
 })

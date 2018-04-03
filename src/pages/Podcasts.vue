@@ -91,18 +91,11 @@ export default {
       imediate:true,
       handler(to, from){
       this.search = to.query.q;
-      if (to.params.p) this.currentPage = to.params.p;
-      //console.log(" watch page: " + to.query.p);
-      
+      if (to.params.p) this.currentPage = to.params.p;      
       this.load();
     }
     }
   },
-   beforeRouteUpdate : function(to, from, next) {
-    //console.log(" guard page: " + to.query.p);
-  
-  next();
-   },
   created:function(){
     if (this.getUrlParameter('p')) this.currentPage =  this.getUrlParameter('p');
     if (this.getUrlParameter('q')) this.search =  this.getUrlParameter('q');
@@ -110,97 +103,4 @@ export default {
   }
 }
 </script>
-
-
-<style>
-.border-box {
-    box-sizing: border-box;
-}
-
-.ba {
-    border-style: solid;
-    border-width: 1px;
-}
-
-.flex {
-    display: flex;
-}
-
-.inline-flex {
-    display: inline-flex;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.w1 {
-    width: 1rem;
-}
-
-.black {
-    color: #000;
-}
-
-.hover-white:hover {
-    color: #fff;
-}
-
-.hover-white:focus {
-    color: #fff;
-}
-
-.hover-bg-black:hover {
-    background-color: #000;
-}
-
-.hover-bg-black:focus {
-    background-color: #000;
-}
-
-.pa3 {
-    padding: 1rem;
-}
-
-.pa4 {
-    padding: 2rem;
-}
-
-.pl1 {
-    padding-left: .25rem;
-}
-
-.pr1 {
-    padding-right: .25rem;
-}
-
-.mr4 {
-    margin-right: 2rem;
-}
-
-.no-underline {
-    text-decoration: none;
-}
-
-.f5 {
-    font-size: 1rem;
-}
-
-.bg-animate, .bg-animate:hover, .bg-animate:focus {
-    transition: background-color .15s ease-in-out;
-}
-
-.top-40{
-  margin-top: 40px;
-}
-
-.bottom-20{
-  margin-bottom:20px;
-}
-
-</style>
 

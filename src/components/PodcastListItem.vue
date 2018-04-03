@@ -13,8 +13,10 @@
        
       </div>
     </div>
-    <p class="f6 lh-copy gray mv0">By <span class="ttu"> {{p.producerName}}</span>
-    <time class="f6 db gray">{{p.pubDate | date }}</time></p>
+    <p class="f6 lh-copy gray mv0">
+        By <span class="ttu"> {{p.producerName}} </span>
+            <span class="f6  gray"> on {{p.pubDate | date }}</span>
+    </p>
   </article>  
 </template>
 
@@ -29,3 +31,8 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    /* a{color:red;} */
+</style>
+
