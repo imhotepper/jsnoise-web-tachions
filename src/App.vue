@@ -53,14 +53,12 @@ export default {
   margin-top: 60px;
 }
 
-a,
-a:hover {
-  color: black;
-  text-decoration: none;
-}
-
-.banner {
+.banner{
   color: #42b983;
+}
+a.banner:hover {
+  color: #36976c;
+  text-decoration: none;
 }
 
 h2 {

@@ -34,5 +34,11 @@ export default {
 
 <style scoped>
     /* a{color:red;} */
+
+a,
+a:hover {
+  color: black;
+  text-decoration: none;
+}
 </style>
 
