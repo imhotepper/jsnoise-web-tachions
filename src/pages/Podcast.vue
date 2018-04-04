@@ -4,7 +4,7 @@
     <div class="flex flex-column flex-row-ns">
       <div class="w-100 w-60-ns pr3-ns order-1 order-1-ns">
         <h1 class="f3 athelas mt0 lh-title">
-            {{podcast.title}}      
+            {{podcast.title}}  
         </h1>   
       </div>
      
@@ -45,4 +45,3 @@ export default {
   }
 };
 </script>
-
