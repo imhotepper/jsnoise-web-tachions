@@ -20,87 +20,83 @@
 
     <div class="mw8 center"  v-show="totalPages > 1">
       <nav class="cf pa3 pa4-ns" data-name="pagination-next-prev">
-        <a class="fl dib link dim black f6 f5-ns b pa2" :disabled="!hasPrev" @click="prev" title="Previous">&larr; Previous</a>
-        <a class="fr dib link dim black f6 f5-ns b pa2" :disabled="!hasNext" @click="next" title="Next">Next &rarr;</a>
+        <a class="fl dib link dim black f6 f5-ns b pa2" :disabled="first" @click="prev" title="Previous">&larr; Previous</a>
+        <a class="fr dib link dim black f6 f5-ns b pa2" :disabled="last" @click="next" title="Next">Next &rarr;</a>
       </nav>
     </div>
 
     </div>
 </template>
 <script>
-
-import PodcastListItem from '@/components/PodcastListItem'
+import PodcastListItem from "@/components/PodcastListItem";
 
 export default {
-  name:'Podcasts',
-  props:['p','q'],
-  components: {PodcastListItem},
-  data:function(){
+  name: "Podcasts",
+  components: { PodcastListItem },
+  data: function() {
     return {
-      currentPage:1,
-      totalPages:0,
-      search:'',
-      podcasts:[]
-  }},
-  computed:{
-    hasNext:function(){return this.currentPage < this.totalPages-1},
-    hasPrev:function(){ return this.currentPage > 1},
+      currentPage: 1,
+      totalPages: 0,
+      search: "",
+      podcasts: [],
+      first: false,
+      last: false
+    };
   },
-  methods:{
-   submit: function(){
-     this.currentPage=1;
-     this.doSearch();
-   },
-    next:function(){
-      if (!this.hasNext) return;
+
+  methods: {
+    submit: function() {
+      this.currentPage = 1;
+      this.doSearch();
+    },
+    next: function() {
+      if (this.last) return;
       this.currentPage++;
       this.doSearch();
     },
-    prev:function(){
-      if (!this.hasPrev) return;
-      this.currentPage--;      
+    prev: function() {
+      if (this.first) return;
+      this.currentPage--;
       this.doSearch();
     },
-    doSearch:function(){
-       var prms = {p:this.currentPage};
-      if (this.search){
-        prms["q"]= this.search;
+    doSearch: function() {
+      var prms = { p: this.currentPage };
+      if (this.search) {
+        prms["q"] = this.search;
       }
-      this.$router.push({path:"/", query:prms});
-     
+      this.$router.push({ path: "/", query: prms });
     },
-    getUrlParameter: function (name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    },
-    load:function(){
-        let url = `/api/showslist?page=${this.currentPage}`;
-        if (this.search) url +="&q="+ this.search;
-        this.axios.get(url)
-        .then((resp) => {
-            this.totalPages = resp.data.totalPages;
-            this.podcasts=resp.data.content;
-          })
-        .catch((err)=> console.log(err))
+    load: function() {
+      let url = `/api/showslist?page=${this.currentPage}`;
+      if (this.search) url += "&q=" + this.search;
+      this.axios
+        .get(url)
+        .then(resp => {
+          this.totalPages = resp.data.totalPages;
+          this.podcasts = resp.data.content;
+          this.first = resp.data.first;
+          this.last = resp.data.last;
+        })
+        .catch(err => console.log(err));
     }
   },
-  watch:{
-    $route:{
-      imediate:true,
-      handler(to, from){
-      this.search = to.query.q;
-      if (to.params.p) this.currentPage = to.params.p;      
-      this.load();
-    }
+  watch: {
+    $route: {
+      imediate: true,
+      handler(to, from) {
+        this.search = to.query.q || "";
+        this.currentPage = to.query.p || 1;
+        this.load();
+      }
     }
   },
-  created:function(){
-    if (this.getUrlParameter('p')) this.currentPage =  this.getUrlParameter('p');
-    if (this.getUrlParameter('q')) this.search =  this.getUrlParameter('q');
+  created: function() {
+    this.search = this.$route.query.q || "";
+    this.currentPage = this.$route.query.p || 1;
     this.load();
   }
-}
+};
 </script>
+
+
 
