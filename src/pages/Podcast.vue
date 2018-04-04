@@ -1,6 +1,5 @@
 <template>
 
-
 <article class="pv4 bt bb b--black-10 ph3 ph0-l" >
     <div class="flex flex-column flex-row-ns">
       <div class="w-100 w-60-ns pr3-ns order-1 order-1-ns">
@@ -18,10 +17,10 @@
                 <audio controls
                 v-bind:src="podcast.mp3">
                 Your browser does not support the <code>audio</code> element.
-                </audio>
-           
+                </audio>           
       </div>
-  </article>
+</article>
+
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
 <div>
-  <div>Producers</div>
-  <form @submit.prevent="add">
-    <input type="text" v-model="producer.name" required placeholder="producer name">
+  <h3>Producers list</h3>
+  <form @submit.prevent="add" class="pv4 bt bb b--black-10 ph3 ph0-l" >
+    <input type="text" v-model="producer.name"     required placeholder="producer name">
     <input type="url"  v-model="producer.website"  required placeholder="producer url">
     <input type="url"  v-model="producer.feedUrl"  required placeholder="feeds url">
     <button>add</button>
@@ -29,8 +29,7 @@ export default {
             this.producer ={ name:'',website:'',feedUrl:''};
             this.load();
         })
-        .catch((err)=> console.log(err));
-        
+        .catch((err)=> console.log(err));       
     },
     getEmptyPriducer: function(){
       return { name:'',url:'',feedUrl:''};
@@ -45,8 +44,7 @@ export default {
     }
   },
   created:function(){
-    this.load();
-    
+    this.load();  
   }
 }
 </script>

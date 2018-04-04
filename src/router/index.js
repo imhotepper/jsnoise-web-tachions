@@ -20,12 +20,6 @@ export default new Router({
       component: Podcasts
     },
     {
-      path: '/p=:p?&q=:q?',
-      name: 'podcasts',
-      component: Podcasts,
-      props:true
-    },
-    {
       path:'/podcasts/:id',
       component: Podcast,
       props:true
