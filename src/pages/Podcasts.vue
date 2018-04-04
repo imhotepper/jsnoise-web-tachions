@@ -80,15 +80,21 @@ export default {
         .catch(err => console.log(err));
     }
   },
-  watch: {
-    $route: {
-      imediate: true,
-      handler(to, from) {
+  // watch: {
+  //   $route: {
+  //     imediate: true,
+  //     handler(to, from) {
+  //       this.search = to.query.q || "";
+  //       this.currentPage = to.query.p || 1;
+  //       this.load();
+  //     }
+  //   }
+  // },
+  beforeRouteUpdate: function(to, from, next){
         this.search = to.query.q || "";
         this.currentPage = to.query.p || 1;
         this.load();
-      }
-    }
+        next();
   },
   created: function() {
     this.search = this.$route.query.q || "";
