@@ -33,6 +33,29 @@ Vue.filter('slugify', function slugify(text)
     .replace(/-+$/, '');            // Trim - from end of text
 });
 
+
+//axios global interceptor
+axios.interceptors.request.use(function (config) {
+  const auth = localStorage.getItem("auth") || "";
+  console.log("Auth ", auth);
+  if ( auth.length > 0){
+     config.headers = { Authorization: `Basic ${auth}`};
+    console.log('intercepted!...');
+  }
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if ([401, 403].includes( error.response.status)) {
+          window.location = '/login';      
+  } else {
+      return Promise.reject(error);
+  }
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

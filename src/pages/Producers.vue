@@ -24,7 +24,7 @@ export default {
   },
   methods:{
     add: function(){
-        this.axios.post('/api/producers',this.producer)
+        this.axios.post('/api/admin/producers',this.producer)
         .then((resp)=>{
             this.producer ={ name:'',website:'',feedUrl:''};
             this.load();
@@ -38,7 +38,7 @@ export default {
       localStorage.setItem("producers", JSON.stringify( this.producers));
     },
     load:function(){
-      this.axios.get('/api/producers')
+      this.axios.get('/api/admin/producers')
       .then((resp) => this.producers = resp.data)
       .catch((err)=> console.log(err));
     }

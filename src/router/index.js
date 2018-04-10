@@ -5,7 +5,6 @@ import Producers from '@/pages/Producers'
 import FeedTester from '@/pages/FeedTester'
 import Login from '@/pages/Login'
 import Podcast from '@/pages/Podcast'
-import { isatty } from 'tty';
 
 Vue.use(Router)
 
@@ -30,9 +29,9 @@ export default new Router({
       name:'producers',
       component: Producers,
       beforeEnter(to, from, next){
-        var isAuth = localStorage.getItem("isAuthenticated");        
-        if ((isAuth == "true")) next();
-        else next("/");
+        var isAuth = localStorage.getItem("auth")||"";        
+        if ((isAuth.length > 0)) next();
+        else next("/login");
       }      
     },
     {
@@ -44,6 +43,14 @@ export default new Router({
       path:'/login',
       name:'Login',
       component: Login
+    },
+    {
+      path:'/logout',
+      name:'Logout',
+      beforeEnter(to, from, next){
+          localStorage.setItem("auth","");
+          next("/");
+      }
     },
     {
       path:'*',
