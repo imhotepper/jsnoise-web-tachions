@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Podcasts from '@/pages/Podcasts'
+import ProducerPodcasts from '@/pages/ProducerPodcasts'
 import Producers from '@/pages/Producers'
 import FeedTester from '@/pages/FeedTester'
 import Login from '@/pages/Login'
@@ -8,9 +9,9 @@ import Podcast from '@/pages/Podcast'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 }
   },
   routes: [
@@ -20,41 +21,52 @@ export default new Router({
       component: Podcasts
     },
     {
-      path:'/podcasts/:id',
+      path: '/shows/:id',
       component: Podcast,
-      props:true
+      props: true
     },
     {
-      path:'/admin/producers',
-      name:'producers',
+      path: '/producers/:producer_id',
+      component: ProducerPodcasts,
+      props: true,
+      name: 'producerShows'
+    },
+    {
+      path: '/admin/producers',
       component: Producers,
-      beforeEnter(to, from, next){
-        var isAuth = localStorage.getItem("auth")||"";        
+      beforeEnter(to, from, next) {
+        var isAuth = localStorage.getItem("auth") || "";
         if ((isAuth.length > 0)) next();
         else next("/login");
-      }      
-    },
-    {
-      path:'/admin/test',
-      name:'feedTester',
-      component: FeedTester
-    },
-    {
-      path:'/login',
-      name:'Login',
-      component: Login
-    },
-    {
-      path:'/logout',
-      name:'Logout',
-      beforeEnter(to, from, next){
-          localStorage.setItem("auth","");
-          next("/");
       }
     },
     {
-      path:'*',
-      component:Podcasts
+      path: '/admin/test',
+      name: 'feedTester',
+      component: FeedTester
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      beforeEnter(to, from, next) {
+        localStorage.setItem("auth", "");
+        next("/");
+      }
+    },
+    {
+      path: '*',
+      component: Podcasts,
+      beforeEnter(to, from, next) {
+        console.log("*");
+        next();
+      }
     }
   ]
-})
+});
+
+export default router;

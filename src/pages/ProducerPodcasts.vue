@@ -66,26 +66,19 @@ export default {
       this.doSearch();
     },
     doSearch: function() {
+      console.log("do search:", this.pid);
       var prms = { p: this.currentPage };
       if (this.search) {
         prms["q"] = this.search;
       }
-      if (this.producer_id) {
-        this.$router.push({
-          name: "producerShows",
-          params: { producer_id: this.produceId },
-          query: prms
-        });
-      } else {
-        this.$router.push({ path: "/", query: prms });
-      }
+      this.$router.push({
+        name: "producerShows",
+        param: { producer_id: this.producerId },
+        query: prms
+      });
     },
     load: function() {
-      var url = `/api/showslist?page=${this.currentPage}`;
-      if (this.producer_id) {
-        url = `/api/producers/${this.pid}/shows?page=${this.currentPage}`;
-      }
-
+      var url = (url = `/api/producers/${this.pid}/shows?page=${this.currentPage}`);
       if (this.search) url += "&q=" + this.search;
 
       this.axios
@@ -99,16 +92,6 @@ export default {
         .catch(err => console.log(err));
     }
   },
-  // watch: {
-  //   $route: {
-  //     imediate: true,
-  //     handler(to, from) {
-  //       this.search = to.query.q || "";
-  //       this.currentPage = to.query.p || 1;
-  //       this.load();
-  //     }
-  //   }
-  // },
   beforeRouteUpdate: function(to, from, next) {
     this.search = to.query.q || "";
     this.currentPage = to.query.p || 1;

@@ -3,7 +3,7 @@
   
   <section class="mw7 center" id="app">
     <h1 class="athelas ph3 ph0-l ">
-      <router-link class="banner" to="/">JsNoise </router-link>
+      <router-link class="banner" :to="{path:'/', params:{},query:{}}">JsNoise </router-link>
       </h1>
     <router-view/>
     

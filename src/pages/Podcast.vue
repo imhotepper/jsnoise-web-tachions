@@ -10,7 +10,8 @@
      
     </div>
     <p class="f6 lh-copy gray mv0"> 
-            By <span class="ttu"> {{podcast.producerName}} </span>
+      {{podcast.producerId}}
+            By <span class="ttu"><router-link :to="{name:'producerShows', params:{producer_id:slugp(podcast)}}"> {{podcast.producerName}}</router-link> </span>
             <span class="f6  gray"> on {{podcast.pubDate | date }}</span>
     </p>
     <div class="pl3-ns order-2 order-2-ns mb4 mb0-ns w-100 w-40-ns pa4 ma0 mh0">          
@@ -38,7 +39,10 @@ export default {
           .then(resp => (this.podcast = resp.data))
           .catch(err => console.log(err));
       }
-    }
+    },
+       slugp:function(p){
+      return `${p.producerId}-${ this.$options.filters.slugify(p.producerName)}`;
+      }
   },
   created: function() {
     this.load();

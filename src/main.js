@@ -20,12 +20,12 @@ Vue.prototype.$eventHub = new Vue(); // Global event bus
 Vue.filter("date", function(val){
   if (!val) return "";
   var dt = new Date(val);//.toString("yyyy-MM-dd");
-  return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDay()}`;
+  return `${dt.getFullYear()}-${dt.getMonth()+1}-${dt.getDate()}`;
 });
 
 Vue.filter('slugify', function slugify(text)
 {
-  return text.toString().toLowerCase()
+  return (text||"").toString().toLowerCase()
     .replace(/\s+/g, '-')           // Replace spaces with -
     .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
     .replace(/\-\-+/g, '-')         // Replace multiple - with single -
@@ -37,10 +37,8 @@ Vue.filter('slugify', function slugify(text)
 //axios global interceptor
 axios.interceptors.request.use(function (config) {
   const auth = localStorage.getItem("auth") || "";
-  console.log("Auth ", auth);
   if ( auth.length > 0){
      config.headers = { Authorization: `Basic ${auth}`};
-    console.log('intercepted!...');
   }
   return config;
 }, function (error) {
