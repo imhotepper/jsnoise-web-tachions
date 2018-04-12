@@ -49,6 +49,7 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   if ([401, 403].includes( error.response.status)) {
+          localStorage.clear();
           window.location = '/login';      
   } else {
       return Promise.reject(error);
