@@ -25,19 +25,17 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   props: ["id"],
-  data: function() {
-    return { podcast: {} };
-  },
+  computed:{...mapGetters(['podcast'])},
   methods: {
+    ...mapActions(['loadPodcast']),
     load: function() {
       if (this.id) {
         const theId = this.id.split("-")[0];
-        this.axios
-          .get(`/api/shows/${theId}`)
-          .then(resp => (this.podcast = resp.data))
-          .catch(err => console.log(err));
+        this.loadPodcast(theId);        
       }
     },
        slugp:function(p){

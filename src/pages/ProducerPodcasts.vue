@@ -20,8 +20,8 @@
 
     <div class="mw8 center"  v-show="totalPages > 1">
       <nav class="cf pa3 pa4-ns" data-name="pagination-next-prev">
-        <a class="fl dib link dim black f6 f5-ns b pa2" :disabled="first" @click="prev" title="Previous">&larr; Previous</a>
-        <a class="fr dib link dim black f6 f5-ns b pa2" :disabled="last" @click="next" title="Next">Next &rarr;</a>
+        <a class="fl dib link dim black f6 f5-ns b pa2" v-show="!first" @click="prev" title="Previous">&larr; Previous</a>
+        <a class="fr dib link dim black f6 f5-ns b pa2" v-show="!last" @click="next" title="Next">Next &rarr;</a>
       </nav>
     </div>
 
@@ -29,12 +29,14 @@
 </template>
 <script>
 import PodcastListItem from "@/components/PodcastListItem";
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "Podcasts",
   props: ["producer_id"],
   components: { PodcastListItem },
   computed: {
+     ...mapGetters(['podcasts','totalPages','first','last']),
     pid: function() {
       return (this.producer_id || "").split("-")[0];
     }
@@ -42,15 +44,13 @@ export default {
   data: function() {
     return {
       currentPage: 1,
-      totalPages: 0,
-      search: "",
-      podcasts: [],
-      first: false,
-      last: false
+      search: ""
     };
   },
 
   methods: {
+    ...mapActions(['loadPodcasts']),
+    
     submit: function() {
       this.currentPage = 1;
       this.doSearch();
@@ -66,7 +66,6 @@ export default {
       this.doSearch();
     },
     doSearch: function() {
-      console.log("do search:", this.pid);
       var prms = { p: this.currentPage };
       if (this.search) {
         prms["q"] = this.search;
@@ -78,18 +77,7 @@ export default {
       });
     },
     load: function() {
-      var url = (url = `/api/producers/${this.pid}/shows?page=${this.currentPage}`);
-      if (this.search) url += "&q=" + this.search;
-
-      this.axios
-        .get(url)
-        .then(resp => {
-          this.totalPages = resp.data.totalPages;
-          this.podcasts = resp.data.content;
-          this.first = resp.data.first;
-          this.last = resp.data.last;
-        })
-        .catch(err => console.log(err));
+      this.loadPodcasts({page:this.currentPage,q:this.search,pid:this.pid});    
     }
   },
   beforeRouteUpdate: function(to, from, next) {

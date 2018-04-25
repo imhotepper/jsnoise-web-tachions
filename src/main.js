@@ -10,6 +10,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import * as uiv from 'uiv'
 
+import store from '@/store'
 
 Vue.use(VueAxios, axios);
 Vue.use(uiv);
@@ -58,6 +59,7 @@ axios.interceptors.response.use(function (response) {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'
