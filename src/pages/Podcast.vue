@@ -3,11 +3,8 @@
 <article class="pv4 bt bb b--black-10 ph3 ph0-l" >
     <div class="flex flex-column flex-row-ns">
       <div class="w-100 w-60-ns pr3-ns order-1 order-1-ns">
-        <h1 class="f3 athelas mt0 lh-title">
-            {{podcast.title}}  
-        </h1>   
-      </div>
-     
+        <h1 class="f3 athelas mt0 lh-title" :v-bind="podcast.title"></h1>   
+      </div>     
     </div>
     <p class="f6 lh-copy gray mv0"> 
       {{podcast.producerId}}
@@ -38,7 +35,7 @@ export default {
         this.loadPodcast(theId);        
       }
     },
-       slugp:function(p){
+    slugp:function(p){
       return `${p.producerId}-${ this.$options.filters.slugify(p.producerName)}`;
       }
   },

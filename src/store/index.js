@@ -1,20 +1,18 @@
-
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { stat } from 'fs';
 
 Vue.use(Vuex)
 
-
 export default new Vuex.Store({
     state: {
-        podcast: null,
+        podcast: {},
         podcasts: [],
         totalPages: null,
         first: false,
         last: false,
-        q: ''
+        q: '',
+        producers: []
     },
     getters: {
         podcasts: (state) => state.podcasts,
@@ -22,8 +20,8 @@ export default new Vuex.Store({
         last: (state) => state.last,
         totalPages: (state) => state.totalPages,
         q: (state) => state.q,
-        podcast: (state) => state.podcast
-
+        podcast: (state) => state.podcast,
+        producers:(state) => state.producers
     },
     mutations: {
         setPodcasts(state, details) {
@@ -32,7 +30,8 @@ export default new Vuex.Store({
             state.last = details.last;
             state.totalPages = details.totalPages;
         },
-        setPodcast: (state, podcast) => state.podcast = podcast
+        setPodcast: (state, podcast) => state.podcast = podcast,
+        setProducers: (state, producers) => state.producers = producers
     },
     actions: {
         loadPodcast(context, id) {
@@ -62,6 +61,19 @@ export default new Vuex.Store({
                     });
                 })
                 .catch(err => console.log(err));
+        },
+        loadProducers(context) {
+            Vue.axios.get('/api/admin/producers')
+                .then((resp) => context.commit("setProducers", resp.data))
+                .catch((err) => console.log(err));
+        },
+        saveProducer(context, producer) {
+            Vue.axios.post('/api/admin/producers', producer)
+                .then((resp) => {
+                    this.loadProducers();
+                })
+                .catch((err) => console.log(err));
+
         }
     }
 })

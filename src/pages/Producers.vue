@@ -14,33 +14,35 @@
   </div>
 </template>
 <script>
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
+  computed:{...mapGetters(['producers'])},
   data: function(){
     return {
-      producer:{ name:'',website:'',feedUrl:''},
-      producers:[]
+      producer:{ name:'',website:'',feedUrl:''}
     }
   },
   methods:{
+    ...mapActions(['loadProducers','saveProducer']),
     add: function(){
-        this.axios.post('/api/admin/producers',this.producer)
-        .then((resp)=>{
-            this.producer ={ name:'',website:'',feedUrl:''};
-            this.load();
-        })
-        .catch((err)=> console.log(err));       
+      this.saveProducer(this.producer);
+      this.producer ={ name:'',website:'',feedUrl:''};
+           
+        // this.axios.post('/api/admin/producers',this.producer)
+        // .then((resp)=>{
+        //     this.load();
+        // })
+        // .catch((err)=> console.log(err));       
     },
     getEmptyPriducer: function(){
       return { name:'',url:'',feedUrl:''};
     },
     saveProducers: function(){
-      localStorage.setItem("producers", JSON.stringify( this.producers));
+      localStorage.setItem("producers", JSON.stringify(this.producers));
     },
     load:function(){
-      this.axios.get('/api/admin/producers')
-      .then((resp) => this.producers = resp.data)
-      .catch((err)=> console.log(err));
+      this.loadProducers();
     }
   },
   created:function(){

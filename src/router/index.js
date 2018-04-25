@@ -34,6 +34,7 @@ const router = new Router({
     {
       path: '/admin/producers',
       component: Producers,
+      name:'producers',
       beforeEnter(to, from, next) {
         var isAuth = localStorage.getItem("auth") || "";
         if ((isAuth.length > 0)) next();
