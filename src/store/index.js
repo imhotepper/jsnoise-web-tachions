@@ -9,8 +9,8 @@ export default new Vuex.Store({
         podcast: {},
         podcasts: [],
         totalPages: null,
-        first: false,
-        last: false,
+        first: true,
+        last: true,
         q: '',
         producers: []
     },

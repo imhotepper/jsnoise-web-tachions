@@ -6,6 +6,7 @@ import Producers from '@/pages/Producers'
 import FeedTester from '@/pages/FeedTester'
 import Login from '@/pages/Login'
 import Podcast from '@/pages/Podcast'
+import Error from '@/pages/Error'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ const router = new Router({
         localStorage.setItem("auth", "");
         next("/");
       }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: Error
     },
     {
       path: '*',
