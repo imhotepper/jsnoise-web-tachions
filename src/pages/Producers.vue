@@ -9,7 +9,7 @@
   </form>
   <br/>
   <div>
-    <div v-for="p in producers" :key="p.feedUrl"> {{p.name}} </div>
+    <div v-for="p in producers" :key="p.feedUrl"> {{p.name}} ({{p.count}} shows) </div>
   </div>
   </div>
 </template>

@@ -56,7 +56,7 @@ const router = new Router({
       path: '/logout',
       name: 'Logout',
       beforeEnter(to, from, next) {
-        localStorage.setItem("auth", "");
+        localStorage.removeItem("auth");
         next("/");
       }
     },
