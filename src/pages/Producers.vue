@@ -28,12 +28,6 @@ export default {
     add: function(){
       this.saveProducer(this.producer);
       this.producer ={ name:'',website:'',feedUrl:''};
-           
-        // this.axios.post('/api/admin/producers',this.producer)
-        // .then((resp)=>{
-        //     this.load();
-        // })
-        // .catch((err)=> console.log(err));       
     },
     getEmptyPriducer: function(){
       return { name:'',url:'',feedUrl:''};

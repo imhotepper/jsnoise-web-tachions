@@ -49,7 +49,6 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   if ( (error.response.status+"").startsWith("50")) {
-    console.log('error code: ', error.response.status);
     window.location = '/error';
   }
   if (400 == error.response.status) {

@@ -12,7 +12,8 @@ export default new Vuex.Store({
         first: true,
         last: true,
         q: '',
-        producers: []
+        producers: [],
+        isLoggedIn: !!localStorage.getItem("auth")
     },
     getters: {
         podcasts: (state) => state.podcasts,
@@ -70,10 +71,14 @@ export default new Vuex.Store({
         saveProducer(context, producer) {
             Vue.axios.post('/api/admin/producers', producer)
                 .then((resp) => {
-                    this.loadProducers();
+                    context.dispatch('loadProducers');
                 })
                 .catch((err) => console.log(err));
 
+        },
+        login(context,userData){
+            var auth =  btoa(`${userData.username}:${userData.password}`);
+            localStorage.setItem("auth", auth);        
         }
     }
 })
